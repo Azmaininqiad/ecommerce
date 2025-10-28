@@ -54,7 +54,7 @@ This project now includes Supabase authentication with the following features:
 
 ### 1. Wrap your app with AuthProvider
 ```tsx
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 export default function RootLayout({ children }) {
   return (
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
 
 ### 2. Use authentication in components
 ```tsx
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 
 export default function MyComponent() {
   const { user, loading, signOut } = useAuth();
