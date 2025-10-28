@@ -75,7 +75,7 @@ export default function DebugProductsPage() {
           <ol className="list-decimal list-inside space-y-2 text-sm">
             <li>Run the <code className="bg-gray-200 px-2 py-1 rounded">sample_products.sql</code> file in your Supabase SQL editor</li>
             <li>Refresh this page to see the products</li>
-            <li>Click "View Product Details" to test the dynamic product pages</li>
+            <li>Click View Product Details to test the dynamic product pages</li>
             <li>Each product should show its specific details, not the hardcoded gamepad info</li>
           </ol>
         </div>

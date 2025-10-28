@@ -108,7 +108,7 @@ export default function DebugDBPage() {
           <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
             <h3 className="font-medium text-yellow-800 mb-4">⚠️ Orders Table Missing</h3>
             <p className="text-yellow-700 mb-4">
-              The orders table doesn't exist yet. You need to run the SQL migration to create it.
+              The orders table doesnt exist yet. You need to run the SQL migration to create it.
             </p>
             <div className="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm overflow-x-auto">
               <p className="mb-2"># Steps to fix:</p>

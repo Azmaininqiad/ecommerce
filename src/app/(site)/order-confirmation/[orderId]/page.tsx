@@ -88,7 +88,7 @@ export default function OrderConfirmationPage() {
               </div>
               <h1 className="text-3xl font-bold text-green-700 mb-2">Order Confirmed!</h1>
               <p className="text-green-600 mb-4">
-                Thank you for your order. We've received your order and are processing it now.
+                Thank you for your order. Weve received your order and are processing it now.
               </p>
               <p className="text-lg font-semibold text-gray-800">
                 Order Number: <span className="text-blue">{order.orderNumber}</span>
