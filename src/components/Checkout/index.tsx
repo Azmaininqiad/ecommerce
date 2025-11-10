@@ -193,7 +193,7 @@ const Checkout = () => {
                           </div>
                           <div>
                             <p className="text-dark text-right">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              {(item.price * item.quantity).toFixed(2)} BDT
                             </p>
                           </div>
                         </div>
@@ -211,7 +211,7 @@ const Checkout = () => {
                           <p className="text-dark">Subtotal</p>
                         </div>
                         <div>
-                          <p className="text-dark text-right">${totalPrice.toFixed(2)}</p>
+                          <p className="text-dark text-right">{totalPrice.toFixed(2)} BDT</p>
                         </div>
                       </div>
                     )}
@@ -223,7 +223,7 @@ const Checkout = () => {
                           <p className="text-dark">Shipping Fee</p>
                         </div>
                         <div>
-                          <p className="text-dark text-right">${shippingFee.toFixed(2)}</p>
+                          <p className="text-dark text-right">{shippingFee.toFixed(2)}BDT</p>
                         </div>
                       </div>
                     )}
@@ -235,7 +235,7 @@ const Checkout = () => {
                       </div>
                       <div>
                         <p className="font-medium text-lg text-dark text-right">
-                          ${cartItems.length > 0 ? finalTotal.toFixed(2) : '0.00'}
+                          {cartItems.length > 0 ? finalTotal.toFixed(2) : '0.00'}BDT
                         </p>
                       </div>
                     </div>

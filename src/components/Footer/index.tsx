@@ -32,7 +32,7 @@ const Footer = () => {
                     />
                   </svg>
                 </span>
-                685 Market Street,Las Vegas, LA 95820,United States.
+                Islamic University of Technology, Boardbazar, Gazipur, Bangladesh.
               </li>
 
               <li>
@@ -61,7 +61,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  (+099) 532-786-9843
+                  (+880) 1804-219357
                 </a>
               </li>
 
@@ -81,7 +81,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  support@example.com
+                  voltdropbd@gmail.com
                 </a>
               </li>
             </ul>
@@ -89,7 +89,7 @@ const Footer = () => {
             {/* <!-- Social Links start --> */}
             <div className="flex items-center gap-4 mt-7.5">
               <a
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61579220831045"
                 aria-label="Facebook Social Link"
                 className="flex ease-out duration-200 hover:text-blue"
               >
@@ -207,21 +207,21 @@ const Footer = () => {
                   My Account
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Login / Register
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Cart
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Wishlist
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Shop
@@ -230,13 +230,13 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="w-full sm:w-auto">
+          {/* <div className="w-full sm:w-auto">
             <h2 className="mb-7.5 text-custom-1 font-medium text-dark">
               Quick Link
             </h2>
 
             <ul className="flex flex-col gap-3">
-              <li>
+               <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Privacy Policy
                 </a>
@@ -250,21 +250,21 @@ const Footer = () => {
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Terms of Use
                 </a>
-              </li>
+              </li> 
               <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   FAQ’s
                 </a>
               </li>
-              <li>
+              <li> 
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Contact
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
-          <div className="w-full sm:w-auto">
+          {/* <div className="w-full sm:w-auto">
             <h2 className="mb-7.5 text-custom-1 font-medium text-dark lg:text-right">
               Download App
             </h2>
@@ -328,7 +328,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         {/* <!-- footer menu end --> */}
       </div>
@@ -338,10 +338,10 @@ const Footer = () => {
         <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-5 flex-wrap items-center justify-between">
             <p className="text-dark font-medium">
-              &copy; {year}. All rights reserved by PimjoLabs.
+              &copy; {year}. All rights reserved by VoltDropBD.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            {/* <div className="flex flex-wrap items-center gap-4">
               <p className="font-medium">We Accept:</p>
 
               <div className="flex flex-wrap items-center gap-6">
@@ -386,8 +386,8 @@ const Footer = () => {
                   />
                 </a>
               </div>
-            </div>
-          </div>
+            </div>*/}
+          </div> 
         </div>
       </div>
       {/* <!-- footer bottom end --> */}

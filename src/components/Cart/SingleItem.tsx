@@ -50,7 +50,7 @@ const SingleItem = ({ item }) => {
       </div>
 
       <div className="min-w-[180px]">
-        <p className="text-dark">${item.discountedPrice}</p>
+        <p className="text-dark">{item.discountedPrice} BDT</p>
       </div>
 
       <div className="min-w-[275px]">

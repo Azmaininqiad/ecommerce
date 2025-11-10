@@ -1,3 +1,11 @@
+export interface ProductImage {
+  id: number;
+  image_url: string;
+  image_type: 'thumbnail' | 'preview' | 'main';
+  sort_order: number;
+  alt_text?: string;
+}
+
 export type Product = {
   id: number;
   title: string;
@@ -15,21 +23,25 @@ export type Product = {
   status: string;
   created_at: string;
   updated_at: string;
+  specifications?: Array<{
+    title: string;
+    value: string;
+  }>;
   imgs?: {
     thumbnails: string[];
     previews: string[];
   };
 };
 
-export type ProductImage = {
-  id: number;
-  product_id: number;
-  image_url: string;
-  image_type: 'thumbnail' | 'preview' | 'main';
-  sort_order: number;
-  alt_text?: string;
-  created_at: string;
-};
+// export type ProductImage = {
+//   id: number;
+//   product_id: number;
+//   image_url: string;
+//   image_type: 'thumbnail' | 'preview' | 'main';
+//   sort_order: number;
+//   alt_text?: string;
+//   created_at: string;
+// };
 
 export type Category = {
   id: number;

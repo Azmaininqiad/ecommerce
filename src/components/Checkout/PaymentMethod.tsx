@@ -15,7 +15,7 @@ const PaymentMethod = () => {
             htmlFor="bank"
             className="flex cursor-pointer select-none items-center gap-4"
           >
-            <div className="relative">
+            {/* <div className="relative">
               <input
                 type="checkbox"
                 name="bank"
@@ -30,9 +30,9 @@ const PaymentMethod = () => {
                     : "border border-gray-4"
                 }`}
               ></div>
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               className={`rounded-md border-[0.5px] py-3.5 px-5 ease-out duration-200 hover:bg-gray-2 hover:border-transparent hover:shadow-none ${
                 payment === "bank"
                   ? "border-transparent bg-gray-2"
@@ -48,14 +48,14 @@ const PaymentMethod = () => {
                   <p>Direct bank transfer</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </label>
 
           <label
             htmlFor="cash"
             className="flex cursor-pointer select-none items-center gap-4"
           >
-            <div className="relative">
+            {/* <div className="relative">
               <input
                 type="checkbox"
                 name="cash"
@@ -70,7 +70,7 @@ const PaymentMethod = () => {
                     : "border border-gray-4"
                 }`}
               ></div>
-            </div>
+            </div> */}
 
             <div
               className={`rounded-md border-[0.5px] py-3.5 px-5 ease-out duration-200 hover:bg-gray-2 hover:border-transparent hover:shadow-none min-w-[240px] ${
@@ -91,7 +91,7 @@ const PaymentMethod = () => {
             </div>
           </label>
 
-          <label
+          {/* <label
             htmlFor="paypal"
             className="flex cursor-pointer select-none items-center gap-4"
           >
@@ -128,7 +128,7 @@ const PaymentMethod = () => {
                 </div>
               </div>
             </div>
-          </label>
+          </label> */}
         </div>
       </div>
     </div>

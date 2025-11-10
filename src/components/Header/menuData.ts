@@ -85,12 +85,12 @@ export const menuData: Menu[] = [
         newTab: false,
         path: "/error",
       },
-      {
-        id: 63,
-        title: "Mail Success",
-        newTab: false,
-        path: "/mail-success",
-      },
+      // {
+      //   id: 63,
+      //   title: "Mail Success",
+      //   newTab: false,
+      //   path: "/mail-success",
+      // },
     ],
   },
   // {

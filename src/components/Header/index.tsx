@@ -82,7 +82,7 @@ const Header = () => {
           <div className="xl:w-auto flex-col sm:flex-row w-full flex sm:justify-between sm:items-center gap-5 sm:gap-10">
             <Link className="flex-shrink-0" href="/">
               <Image
-                src="/images/logo/logo.svg"
+                src="/images/logo/logo2.svg"
                 alt="Logo"
                 width={219}
                 height={36}
@@ -255,7 +255,7 @@ const Header = () => {
                           onClick={() => setUserMenuOpen(false)}
                         >
                           Wishlist
-                        </Link> 
+                        </Link>  
                         
                         <div className="border-t border-gray-100 mt-2 pt-2">
                           <button
@@ -351,7 +351,7 @@ const Header = () => {
                       cart
                     </span>
                     <p className="font-medium text-custom-sm text-dark">
-                      ${totalPrice}
+                      {totalPrice} BDT
                     </p>
                   </div>
                 </button>
