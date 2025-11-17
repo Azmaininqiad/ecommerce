@@ -36,8 +36,8 @@ export default function RootLayout({
           <PreLoader />
         ) : (
           <>
-            <AuthProvider>
-              <ReduxProvider>
+            <ReduxProvider>
+              <AuthProvider>
                 <CartModalProvider>
                   <ModalProvider>
                     <PreviewSliderProvider>
@@ -50,8 +50,8 @@ export default function RootLayout({
                     </PreviewSliderProvider>
                   </ModalProvider>
                 </CartModalProvider>
-              </ReduxProvider>
-            </AuthProvider>
+              </AuthProvider>
+            </ReduxProvider>
             <ScrollToTop />
             <Footer />
             <Toaster 

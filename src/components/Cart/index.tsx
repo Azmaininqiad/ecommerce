@@ -1,14 +1,52 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Discount from "./Discount";
 import OrderSummary from "./OrderSummary";
 import { useAppSelector } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { removeAllItemsFromCart } from "@/redux/features/cart-slice";
+import { clearUserCartDB } from "@/lib/supabase/cart";
+import { useAuth } from "../../../contexts/AuthContext";
 import SingleItem from "./SingleItem";
 import Breadcrumb from "../Common/Breadcrumb";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const cartItems = useAppSelector((state) => state.cartReducer.items);
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  const [isClearing, setIsClearing] = useState(false);
+
+  const handleClearCart = async () => {
+    if (!window.confirm("Are you sure you want to clear your cart? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      setIsClearing(true);
+
+      // Clear Redux cart immediately
+      dispatch(removeAllItemsFromCart());
+
+      // Clear database if user is logged in
+      if (user) {
+        const success = await clearUserCartDB();
+        if (success) {
+          toast.success("Cart cleared successfully");
+        } else {
+          toast.error("Failed to clear cart from database");
+        }
+      } else {
+        toast.success("Cart cleared successfully");
+      }
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+      toast.error("Error clearing cart");
+    } finally {
+      setIsClearing(false);
+    }
+  };
 
   return (
     <>
@@ -22,7 +60,13 @@ const Cart = () => {
           <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
             <div className="flex flex-wrap items-center justify-between gap-5 mb-7.5">
               <h2 className="font-medium text-dark text-2xl">Your Cart</h2>
-              <button className="text-blue">Clear Shopping Cart</button>
+              <button
+                onClick={handleClearCart}
+                disabled={isClearing}
+                className="text-blue hover:text-blue-dark disabled:opacity-50 disabled:cursor-not-allowed ease-out duration-200"
+              >
+                {isClearing ? "Clearing..." : "Clear Shopping Cart"}
+              </button>
             </div>
 
             <div className="bg-white rounded-[10px] shadow-1">

@@ -62,7 +62,7 @@ const Shipping = () => {
               </svg>
             </span>
           </div>
-        </div>
+        </div> 
 
         <div className="mb-5">
           <label htmlFor="address" className="block mb-2.5">

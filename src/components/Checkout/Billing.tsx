@@ -125,11 +125,11 @@ const Billing = () => {
               onChange={handleInputChange}
               className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
             >
-              <option value="Australia">Australia</option>
-              <option value="America">America</option>
+              <option value="Bangladesh">Bangladesh</option>
+              {/* <option value="America">America</option>
               <option value="England">England</option>
               <option value="Canada">Canada</option>
-              <option value="Germany">Germany</option>
+              <option value="Germany">Germany</option> */}
             </select>
 
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-4">
@@ -150,7 +150,7 @@ const Billing = () => {
               </svg>
             </span>
           </div>
-        </div>
+        </div> 
 
         <div className="mb-5">
           <label htmlFor="address" className="block mb-2.5">

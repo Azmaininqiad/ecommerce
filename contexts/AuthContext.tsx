@@ -2,6 +2,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { createSPAClient } from '@/components/Common/lib/supabase/client';
+import { useDispatch } from 'react-redux';
+import { loadCartFromDB } from '@/redux/features/cart-slice';
+import { fetchUserCart } from '@/lib/supabase/cart';
 
 interface AuthContextType {
   user: User | null;
@@ -29,6 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const supabase = createSPAClient();
@@ -38,6 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      // Load cart from database if user is logged in
+      if (session?.user) {
+        loadUserCart();
+      }
     });
 
     // Listen for auth changes
@@ -47,10 +56,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      // Load cart when user signs in
+      if (event === 'SIGNED_IN' && session?.user) {
+        loadUserCart();
+      }
+      
+      // Clear cart when user signs out
+      if (event === 'SIGNED_OUT') {
+        dispatch(loadCartFromDB([]));
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [dispatch]);
+
+  const loadUserCart = async () => {
+    try {
+      const cartItems = await fetchUserCart();
+      
+      // Convert database cart items to Redux format
+      const formattedItems = cartItems.map((item) => ({
+        id: item.product_id,
+        title: item.product_title,
+        price: Number(item.product_price),
+        discountedPrice: item.product_discounted_price ? Number(item.product_discounted_price) : Number(item.product_price),
+        quantity: item.quantity,
+        dbId: item.id,
+        imgs: item.product_image ? {
+          thumbnails: [item.product_image],
+          previews: [item.product_image],
+        } : undefined,
+      }));
+      
+      dispatch(loadCartFromDB(formattedItems));
+    } catch (error) {
+      console.error('Error loading cart from database:', error);
+    }
+  };
 
   const signOut = async () => {
     const supabase = createSPAClient();

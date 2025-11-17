@@ -3,6 +3,7 @@ import { RootState } from "../store";
 
 type InitialState = {
   items: CartItem[];
+  dbId?: string; // Track the database ID for each cart item
 };
 
 type CartItem = {
@@ -11,6 +12,7 @@ type CartItem = {
   price: number;
   discountedPrice: number;
   quantity: number;
+  dbId?: string; // Database ID for persistence
   imgs?: {
     thumbnails: string[];
     previews: string[];
@@ -62,6 +64,19 @@ export const cart = createSlice({
     removeAllItemsFromCart: (state) => {
       state.items = [];
     },
+    
+    // Load cart from database
+    loadCartFromDB: (state, action: PayloadAction<CartItem[]>) => {
+      state.items = action.payload;
+    },
+    
+    // Set database ID for cart item
+    setCartItemDBId: (state, action: PayloadAction<{ productId: number; dbId: string }>) => {
+      const item = state.items.find((item) => item.id === action.payload.productId);
+      if (item) {
+        item.dbId = action.payload.dbId;
+      }
+    },
   },
 });
 
@@ -78,5 +93,7 @@ export const {
   removeItemFromCart,
   updateCartItemQuantity,
   removeAllItemsFromCart,
+  loadCartFromDB,
+  setCartItemDBId,
 } = cart.actions;
 export default cart.reducer;

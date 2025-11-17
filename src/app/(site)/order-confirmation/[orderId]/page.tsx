@@ -155,27 +155,27 @@ export default function OrderConfirmationPage() {
             <div className="space-y-4">
               <div className="flex justify-between py-2 border-b">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-semibold">${order.subtotal.toFixed(2)}</span>
+                <span className="font-semibold">{order.subtotal.toFixed(2)}BDT</span>
               </div>
               <div className="flex justify-between py-2 border-b">
                 <span className="text-gray-600">Shipping:</span>
-                <span className="font-semibold">${order.shippingFee.toFixed(2)}</span>
+                <span className="font-semibold">{order.shippingFee.toFixed(2)}BDT</span>
               </div>
               {order.taxAmount > 0 && (
                 <div className="flex justify-between py-2 border-b">
                   <span className="text-gray-600">Tax:</span>
-                  <span className="font-semibold">${order.taxAmount.toFixed(2)}</span>
+                  <span className="font-semibold">{order.taxAmount.toFixed(2)}BDT</span>
                 </div>
               )}
               {order.discountAmount > 0 && (
                 <div className="flex justify-between py-2 border-b text-green-600">
                   <span>Discount:</span>
-                  <span className="font-semibold">-${order.discountAmount.toFixed(2)}</span>
+                  <span className="font-semibold">-{order.discountAmount.toFixed(2)}BDT</span>
                 </div>
               )}
               <div className="flex justify-between py-4 border-t-2 border-gray-200">
                 <span className="text-lg font-bold">Total:</span>
-                <span className="text-lg font-bold text-blue">${order.totalAmount.toFixed(2)}</span>
+                <span className="text-lg font-bold text-blue">{order.totalAmount.toFixed(2)}BDT</span>
               </div>
             </div>
           </div>

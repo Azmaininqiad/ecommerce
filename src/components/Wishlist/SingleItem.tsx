@@ -17,8 +17,12 @@ const SingleItem = ({ item }) => {
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
-        ...item,
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        discountedPrice: item.discounted_price || item.price,
         quantity: 1,
+        imgs: item.imgs,
       })
     );
   };

@@ -5,29 +5,103 @@ import {
   removeItemFromCart,
   updateCartItemQuantity,
 } from "@/redux/features/cart-slice";
-
+import { removeItemFromCartDB, updateCartItemQuantityDB } from "@/lib/supabase/cart";
+import { useAuth } from "../../../contexts/AuthContext";
+import toast from "react-hot-toast";
 import Image from "next/image";
 
 const SingleItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useAuth();
 
-  const handleRemoveFromCart = () => {
-    dispatch(removeItemFromCart(item.id));
+  const handleRemoveFromCart = async () => {
+    try {
+      console.log("Delete clicked - item:", item);
+      console.log("User:", user);
+      console.log("Item dbId:", item.dbId);
+      
+      setIsLoading(true);
+
+      // Remove from Redux immediately - ALWAYS DO THIS
+      console.log("Removing from Redux...");
+      dispatch(removeItemFromCart(item.id));
+      console.log("Removed from Redux successfully");
+
+      // Sync to database if user is logged in and item has dbId
+      if (user && item.dbId) {
+        console.log("Removing from database with dbId:", item.dbId);
+        const success = await removeItemFromCartDB(item.dbId);
+        if (success) {
+          console.log("Database removal successful");
+          toast.success("Item removed from cart");
+        } else {
+          console.log("Database removal failed");
+          toast.error("Failed to remove item from database");
+        }
+      } else {
+        console.log("Guest user or no dbId, Redux removal only");
+        toast.success("Item removed from cart");
+      }
+    } catch (error) {
+      console.error("Error removing item:", error);
+      toast.error("Error removing item from cart");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-    dispatch(updateCartItemQuantity({ id: item.id, quantity: quantity + 1 }));
+  const handleIncreaseQuantity = async () => {
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    dispatch(updateCartItemQuantity({ id: item.id, quantity: newQuantity }));
+
+    // Sync to database if user is logged in
+    if (user && item.dbId) {
+      try {
+        const result = await updateCartItemQuantityDB(item.dbId, newQuantity);
+        if (!result) {
+          toast.error("Failed to update quantity");
+          // Rollback
+          setQuantity(quantity);
+          dispatch(updateCartItemQuantity({ id: item.id, quantity }));
+        }
+      } catch (error) {
+        console.error("Error updating quantity:", error);
+        toast.error("Error updating quantity");
+        // Rollback
+        setQuantity(quantity);
+        dispatch(updateCartItemQuantity({ id: item.id, quantity }));
+      }
+    }
   };
 
-  const handleDecreaseQuantity = () => {
+  const handleDecreaseQuantity = async () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
-      dispatch(updateCartItemQuantity({ id: item.id, quantity: quantity - 1 }));
-    } else {
-      return;
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      dispatch(updateCartItemQuantity({ id: item.id, quantity: newQuantity }));
+
+      // Sync to database if user is logged in
+      if (user && item.dbId) {
+        try {
+          const result = await updateCartItemQuantityDB(item.dbId, newQuantity);
+          if (!result) {
+            toast.error("Failed to update quantity");
+            // Rollback
+            setQuantity(quantity);
+            dispatch(updateCartItemQuantity({ id: item.id, quantity }));
+          }
+        } catch (error) {
+          console.error("Error updating quantity:", error);
+          toast.error("Error updating quantity");
+          // Rollback
+          setQuantity(quantity);
+          dispatch(updateCartItemQuantity({ id: item.id, quantity }));
+        }
+      }
     }
   };
 
@@ -57,8 +131,9 @@ const SingleItem = ({ item }) => {
         <div className="w-max flex items-center rounded-md border border-gray-3">
           <button
             onClick={() => handleDecreaseQuantity()}
+            disabled={isLoading || quantity <= 1}
             aria-label="button for remove product"
-            className="flex items-center justify-center w-11.5 h-11.5 ease-out duration-200 hover:text-blue"
+            className="flex items-center justify-center w-11.5 h-11.5 ease-out duration-200 hover:text-blue disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg
               className="fill-current"
@@ -81,8 +156,9 @@ const SingleItem = ({ item }) => {
 
           <button
             onClick={() => handleIncreaseQuantity()}
+            disabled={isLoading}
             aria-label="button for add product"
-            className="flex items-center justify-center w-11.5 h-11.5 ease-out duration-200 hover:text-blue"
+            className="flex items-center justify-center w-11.5 h-11.5 ease-out duration-200 hover:text-blue disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg
               className="fill-current"
@@ -111,9 +187,15 @@ const SingleItem = ({ item }) => {
 
       <div className="min-w-[50px] flex justify-end">
         <button
-          onClick={() => handleRemoveFromCart()}
+          onClick={(e) => {
+            console.log("Button clicked!");
+            e.preventDefault();
+            handleRemoveFromCart();
+          }}
+          disabled={isLoading}
+          type="button"
           aria-label="button for remove product from cart"
-          className="flex items-center justify-center rounded-lg max-w-[38px] w-full h-9.5 bg-gray-2 border border-gray-3 text-dark ease-out duration-200 hover:bg-red-light-6 hover:border-red-light-4 hover:text-red"
+          className="flex items-center justify-center rounded-lg max-w-[38px] w-full h-9.5 bg-gray-2 border border-gray-3 text-dark ease-out duration-200 hover:bg-red-light-6 hover:border-red-light-4 hover:text-red disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg
             className="fill-current"

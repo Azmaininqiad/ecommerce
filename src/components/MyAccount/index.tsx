@@ -611,7 +611,7 @@ const MyAccount = () => {
                     </div>
                   </div>
 
-                  <div className="mb-5">
+                  {/* <div className="mb-5">
                     <label htmlFor="countryName" className="block mb-2.5">
                       Country/ Region <span className="text-red">*</span>
                     </label>
@@ -641,7 +641,7 @@ const MyAccount = () => {
                         </svg>
                       </span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <button
                     type="submit"

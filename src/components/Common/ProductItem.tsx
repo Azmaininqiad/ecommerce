@@ -4,15 +4,19 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
-import { addItemToCart } from "@/redux/features/cart-slice";
+import { addItemToCart, setCartItemDBId } from "@/redux/features/cart-slice";
 import { addItemToWishlist } from "@/redux/features/wishlist-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
+import { addItemToCartDB } from "@/lib/supabase/cart";
+import { useAuth } from "../../../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 const ProductItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
+  const { user } = useAuth();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -22,21 +26,58 @@ const ProductItem = ({ item }: { item: Product }) => {
   };
 
   // add to cart
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
+  const handleAddToCart = async () => {
+    try {
+      // Always add to Redux cart first
+      dispatch(
+        addItemToCart({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          discountedPrice: item.discounted_price || item.price,
+          quantity: 1,
+          imgs: item.imgs,
+        })
+      );
+
+      // If user is logged in, also add to database
+      if (user) {
+        const result = await addItemToCartDB(
+          item.id,
+          item.title,
+          item.price,
+          item.discounted_price || null,
+          item.imgs?.thumbnails?.[0] || null,
+          1
+        );
+        
+        // If database operation succeeded, store the dbId
+        if (result) {
+          dispatch(setCartItemDBId({
+            productId: item.id,
+            dbId: result.id,
+          }));
+          toast.success('Added to cart');
+        }
+      } else {
+        toast.success('Added to cart');
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Error adding to cart');
+    }
   };
 
   const handleItemToWishList = () => {
     dispatch(
       addItemToWishlist({
-        ...item,
-        status: "available",
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        discountedPrice: item.discounted_price || item.price,
         quantity: 1,
+        status: "available",
+        imgs: item.imgs,
       })
     );
   };
@@ -149,7 +190,7 @@ const ProductItem = ({ item }: { item: Product }) => {
           />
         </div>
 
-        <p className="text-custom-sm">({item.reviews})</p>
+        <p className="text-custom-sm">({item.reviews_count})</p>
       </div>
 
       <h3
@@ -160,8 +201,8 @@ const ProductItem = ({ item }: { item: Product }) => {
       </h3>
 
       <span className="flex items-center gap-2 font-medium text-lg">
-        <span className="text-dark">{item.discountedPrice} BDT</span>
-        <span className="text-dark-4 line-through">{item.price} BDT</span>
+        <span className="text-dark">{item.discounted_price || item.price} BDT</span>
+        {item.discounted_price && <span className="text-dark-4 line-through">{item.price} BDT</span>}
       </span>
     </div>
   );

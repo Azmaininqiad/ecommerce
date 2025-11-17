@@ -33,8 +33,12 @@ const QuickViewModal = () => {
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
-        ...product,
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        discountedPrice: product.discounted_price || product.price,
         quantity,
+        imgs: product.imgs,
       })
     );
 
@@ -315,11 +319,13 @@ const QuickViewModal = () => {
 
                   <span className="flex items-center gap-2">
                     <span className="font-semibold text-dark text-xl xl:text-heading-4">
-                      ${product.discountedPrice}
+                      {product.discounted_price || product.price}BDT
                     </span>
-                    <span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
-                      ${product.price}
-                    </span>
+                    {product.discounted_price && (
+                      <span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
+                        {product.price}BDT
+                      </span>
+                    )}
                   </span>
                 </div>
 
